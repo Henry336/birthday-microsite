@@ -38,15 +38,15 @@ const CONFIG = {
   },
 
   // --- PHASE 3: THE LETTER & PHOTOS ---
-  letterText: `Happy 20th Birthday, Thel Thel! ❤️\n\nI wanted to make something special for you this year. [Insert your raw, genuine birthday message here. Write about how much she means to you, your favorite moments from the past year, and what you are looking forward to in the future.]\n\nScroll down to see some of my favorite memories of us.`,
+  letterText: `🎉 🎉 Happy Birthday, Thel Thel! 🎉 🎉\n\nHappy Birthday ပါ ကလေးလေးရေ🥳🥳❤️ သဲသဲ အသက် ၂၀ တောင် ပြည့်သွားပြီပဲ 👀👀 မွေးနေ့ကစပြီး နောင်နှစ်ပေါင်းရာချီတဲ့အထိ ကျန်းမာချမ်းသာပြီး ကိုကိုနဲ့အမြဲတမ်း ပျော်ပျော်ရွှင်ရွှင်လက်တွဲသွားရပါစေ😋❤️ တောင်းတဲ့ဆုတွေလည်းပြည့်ပြီး ဘဝမှာလည်း အောင်မြင်မှုတွေ ပျော်ရွှင်မှုတွေ အများကြီးရပါစေနော် မှူးလေး😁🤍 \nအရမ်းချစ်တယ် ကလေးလေးရေ 😙😙😙😙❤️❤️❤️ အာာာဘွားးးးးး\n \n🎂ပျော်ရွှင်စရာ မွေးနေ့လေးဖြစ်ပါစေ မှူးလေး 🎂 နောက်လာမယ့် မွေးနေ့အဆက်ဆက်ကိုလည်း ဘဝလက်တွေဖော်တွေအဖြစ် ဖြတ်သန်းသွားကြရအောင်နော် 😚❤️❤️❤️ \n\n Scroll down to see my fav pics of you so far!`,
   
   // Ensure these files are in public/photos/
   carousel: [
-    { img: '/photos/photo1.jpg', text: 'This was such a fun day. I love your smile here so much.' },
-    { img: '/photos/photo2.jpg', text: 'Remember this? One of my absolute favorite moments with you.' },
-    { img: '/photos/photo3.jpg', text: 'You looked incredibly gorgeous this day. I couldnt take my eyes off you.' },
-    { img: '/photos/photo4.jpg', text: 'Just us being completely silly. I love our dynamic.' },
-    { img: '/photos/photo5.jpg', text: 'Happy Birthday, my love. Here is to a hundred more memories like this.' }
+    { img: '/photos/photo1.jpg', text: 'သဲသဲနဲ့ ပထမဆုံး dinner date လုပ်တုန်းက ကိုကိုရိုက်ပေးခဲ့တဲ့ပုံလေး😁❤️ ပုံထဲကအချိန်လေးမရောက်ခင် နေပူထဲ လမ်းအကြာကြီးလျှောက်လိုက်ရလို့ Marina Bay Sands သွားတဲ့ တံတားပေါ်မှာ ပင်ပန်းပြီး မျက်နှာလေးမဲ့နေတာက ချစ်စရာလေးရော၊ အခုလို စားလိုက်ရတော့လည်း အဆင်ပြေသွားတာပါပဲ😋' },
+    { img: '/photos/photo2.jpg', text: 'Universal Studios မှာ dinosaur တွေနေရာက တွဲလောင်းစီးရတဲ့ဟာကြီးအတွက် တန်းစီနေတုန်းက ရိုက်ထားတာ ဟီးဟီး😁 ထိုင်နေတာ အရမ်းချစ်စရာလေးမို့ favorite ထဲပါသွားတယ်😌❤️' },
+    { img: '/photos/photo3.jpg', text: '14th Monthsary တုန်းက ပန်းစည်းလေးနဲ့ရိုက်ထားတဲ့ပုံလေး အရမ်းလှလွန်းလို့ ခဏခဏပြန်ကြည့်မိတယ်😭❤️❤️❤️ ချစ်စရာလေးဗျာာာာာ ပြန်ကြည့်လိုက်တိုင်းလည်း ဗိုက်တွေဆာပါတယ် သဲသဲရေ' },
+    { img: '/photos/photo4.jpg', text: 'ဒါလည်း dinner date ကပဲ ဆိုပေမယ့် matching photo လေးရိုက်ထားတာမို့ အရမ်းကြိုက်လို့😚🤍 ချစ်စရာလေးဗျာ omg🥺🥺🥺 အယ် ပြီးတော့ သဲသဲ ဒါလေး fb မှာ ထားမယ်တဲ့ highlight တွေ ထည့်မယ်တို့ပြောပြီး လုပ်လည်းလုပ်ရသေးဘူး😞' },
+    { img: '/photos/photo5.jpg', text: 'First Date တုန်းကပုံလေးကတော့ ထုံးစံအတိုင်း မမေ့မလျော့ ပါကိုပါမှရမှာ🙂‍↕️❤️❤️❤️ ချစ်ခွင့်ပန်တုန်းက “အင်း” လို့ဖြေခဲ့သူလေးမို့ ဒီပုံလေး မှတ်မှတ်ရရအမြဲဖြစ်နေပြီ🥺' }
   ]
 };
 // ============================================================================

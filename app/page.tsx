@@ -34,11 +34,11 @@ const CONFIG = {
   // --- PHASE 2: MIDNIGHT REVEAL ---
   reveal: {
     title: "Happy 20th Birthday, <br/> my love!",
-    buttonText: "Read your letter →"
+    buttonText: "Read my letter →"
   },
 
   // --- PHASE 3: THE LETTER & PHOTOS ---
-  letterText: `🎉 🎉 Happy Birthday, Thel Thel! 🎉 🎉\n\nHappy Birthday ပါ ကလေးလေးရေ🥳🥳❤️ သဲသဲ အသက် ၂၀ တောင် ပြည့်သွားပြီပဲ 👀👀 မွေးနေ့ကစပြီး နောင်နှစ်ပေါင်းရာချီတဲ့အထိ ကျန်းမာချမ်းသာပြီး ကိုကိုနဲ့အမြဲတမ်း ပျော်ပျော်ရွှင်ရွှင်လက်တွဲသွားရပါစေ😋❤️ တောင်းတဲ့ဆုတွေလည်းပြည့်ပြီး ဘဝမှာလည်း အောင်မြင်မှုတွေ ပျော်ရွှင်မှုတွေ အများကြီးရပါစေနော် မှူးလေး😁🤍 \nအရမ်းချစ်တယ် ကလေးလေးရေ 😙😙😙😙❤️❤️❤️ အာာာဘွားးးးးး\n \n🎂ပျော်ရွှင်စရာ မွေးနေ့လေးဖြစ်ပါစေ မှူးလေး 🎂 နောက်လာမယ့် မွေးနေ့အဆက်ဆက်ကိုလည်း ဘဝလက်တွေဖော်တွေအဖြစ် ဖြတ်သန်းသွားကြရအောင်နော် 😚❤️❤️❤️ \n\nScroll down, my love — I saved some of my favorite memories of you.`,
+  letterText: `🎉 🎉 Happy Birthday, Thel Thel! 🎉 🎉\n\nHappy Birthday ပါ ကလေးလေးရေ🥳🥳❤️ သဲသဲ အသက် ၂၀ တောင် ပြည့်သွားပြီပဲ 👀👀 မွေးနေ့ကစပြီး နောင်နှစ်ပေါင်းရာချီတဲ့အထိ ကျန်းမာချမ်းသာပြီး ကိုကိုနဲ့အမြဲတမ်း ပျော်ပျော်ရွှင်ရွှင်လက်တွဲသွားရပါစေ😋❤️ တောင်းတဲ့ဆုတွေလည်းပြည့်ပြီး ဘဝမှာလည်း အောင်မြင်မှုတွေ ပျော်ရွှင်မှုတွေ အများကြီးရပါစေနော် မှူးလေး😁🤍 \nအရမ်းချစ်တယ် ကလေးလေးရေ 😙😙😙😙❤️❤️❤️ အာာာဘွားးးးးး\n \n🎂ပျော်ရွှင်စရာ မွေးနေ့လေးဖြစ်ပါစေ မှူးလေး 🎂 နောက်လာမယ့် မွေးနေ့အဆက်ဆက်ကိုလည်း ဘဝလက်တွေဖော်တွေအဖြစ် ဖြတ်သန်းသွားကြရအောင်နော် 😚❤️❤️❤️ \n\nScroll down, my love - I saved some of my favorite memories of you!`,
 
   // Ensure these files are in public/photos/
   carousel: [
@@ -216,6 +216,7 @@ export default function BirthdayMicrosite() {
 
   return (
     <div className="min-h-screen bg-rose-50 flex flex-col items-center justify-center relative overflow-hidden font-serif text-rose-950">
+      <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_45%,rgba(251,113,133,0.16),transparent_32%),radial-gradient(circle_at_20%_25%,rgba(253,186,116,0.10),transparent_24%),radial-gradient(circle_at_80%_70%,rgba(244,114,182,0.12),transparent_28%)]" />
       {/* --- HIDDEN AUDIO --- */}
       <audio ref={calmAudioRef} src={CONFIG.music.calm} loop />
       <audio
@@ -314,7 +315,7 @@ export default function BirthdayMicrosite() {
 
         {/* ================= PHASE 1: COUNTDOWN ================= */}
         {phase === 1 && (
-          <div className="text-center animate-in fade-in zoom-in duration-700 space-y-8">
+          <div className="text-center animate-in fade-in zoom-in duration-700 space-y-8 rounded-[32px] px-10 py-8 bg-white/20 backdrop-blur-[2px] border border-white/30 shadow-[0_30px_90px_rgba(244,63,94,0.08)]">
             <h2 className="text-2xl md:text-3xl italic text-rose-500 font-light">
               {CONFIG.countdown.title}
             </h2>

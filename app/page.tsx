@@ -224,46 +224,49 @@ export default function BirthdayMicrosite() {
 
         {/* ================= PHASE 3: LETTER & CAROUSEL ================= */}
         {phase === 3 && (
-          <div className="w-full max-w-5xl mx-auto py-12 animate-in fade-in duration-700 h-screen overflow-y-auto custom-scrollbar flex flex-col items-center">
-            
-            {/* The Letter */}
-            <div className="bg-white/80 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-xl border border-rose-100 mb-16 w-11/12 max-w-3xl transform rotate-1 hover:rotate-0 transition-transform">
-              <p className="text-lg md:text-xl leading-loose whitespace-pre-line text-gray-700 font-sans font-light">
-                {CONFIG.letterText}
-              </p>
-            </div>
-
-            {/* The Floating Carousel */}
-            <div className="w-full flex flex-col md:flex-row items-center justify-center gap-8 mb-20 relative px-4">
+          <div className="w-full h-screen overflow-y-auto custom-scrollbar animate-in fade-in duration-700 absolute top-0 left-0 pt-20">
+            <div className="w-full max-w-5xl mx-auto pb-32 flex flex-col items-center px-4">
               
-              {/* Left: Polaroid */}
-              <div className="bg-white p-4 pb-12 rounded-sm shadow-2xl border border-gray-100 transform -rotate-3 hover:scale-105 transition-all z-10 w-72 md:w-96">
-                <div className="w-full h-64 md:h-80 bg-rose-50 rounded overflow-hidden">
-                  <img src={CONFIG.carousel[carouselIdx].img} alt="Memory" className="w-full h-full object-cover" />
-                </div>
-              </div>
-
-              {/* Right: Diary Card */}
-              <div className="bg-rose-50/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-rose-200 transform rotate-2 hover:scale-105 transition-all z-20 w-72 md:w-96 h-48 flex items-center justify-center">
-                <p className="text-lg md:text-xl text-center italic text-rose-900 leading-relaxed">
-                  "{CONFIG.carousel[carouselIdx].text}"
+              {/* The Letter */}
+              <div className="bg-white/80 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-xl border border-rose-100 mb-16 w-full transform rotate-1 hover:rotate-0 transition-transform">
+                <p className="text-lg md:text-xl leading-loose whitespace-pre-line text-gray-700 font-sans font-light">
+                  {CONFIG.letterText}
                 </p>
               </div>
 
-              {/* Controls */}
-              <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 flex items-center gap-6 z-30">
-                <button onClick={handlePrevCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
-                  ←
-                </button>
-                <div className="flex gap-2">
-                  {CONFIG.carousel.map((_, i) => (
-                    <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === carouselIdx ? 'bg-rose-500' : 'bg-rose-200'}`} />
-                  ))}
+              {/* The Floating Carousel */}
+              <div className="w-full flex flex-col md:flex-row items-center justify-center gap-8 mb-20 relative">
+                
+                {/* Left: Polaroid */}
+                <div className="bg-white p-4 pb-12 rounded-sm shadow-2xl border border-gray-100 transform -rotate-3 hover:scale-105 transition-all z-10 w-72 md:w-96 shrink-0">
+                  <div className="w-full h-64 md:h-80 bg-rose-50 rounded overflow-hidden">
+                    <img src={CONFIG.carousel[carouselIdx].img} alt="Memory" className="w-full h-full object-cover" />
+                  </div>
                 </div>
-                <button onClick={handleNextCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
-                  →
-                </button>
+
+                {/* Right: Diary Card */}
+                <div className="bg-rose-50/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-rose-200 transform rotate-2 hover:scale-105 transition-all z-20 w-72 md:w-96 h-48 flex items-center justify-center shrink-0">
+                  <p className="text-lg md:text-xl text-center italic text-rose-900 leading-relaxed">
+                    "{CONFIG.carousel[carouselIdx].text}"
+                  </p>
+                </div>
+
+                {/* Controls */}
+                <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 flex items-center gap-6 z-30">
+                  <button onClick={handlePrevCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
+                    ←
+                  </button>
+                  <div className="flex gap-2">
+                    {CONFIG.carousel.map((_, i) => (
+                      <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === carouselIdx ? 'bg-rose-500' : 'bg-rose-200'}`} />
+                    ))}
+                  </div>
+                  <button onClick={handleNextCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
+                    →
+                  </button>
+                </div>
               </div>
+
             </div>
           </div>
         )}

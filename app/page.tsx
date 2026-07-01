@@ -14,7 +14,13 @@ const CONFIG = {
   // --- AUDIO (Ensure these files are in public/music/) ---
   music: {
     calm: '/music/calm.mp3',
-    birthday: '/music/birthday.mp3'
+    birthday: '/music/birthday.mp3',
+    afterBirthdayQueue: [
+      '/music/song1.mp3',
+      '/music/song2.mp3',
+      '/music/song3.mp3',
+      '/music/calm.mp3'
+    ]
   },
 
   // --- PHASE 0: THE GATE ---
@@ -93,9 +99,12 @@ export default function BirthdayMicrosite() {
   const [carouselIdx, setCarouselIdx] = useState(0);
   const [muted, setMuted] = useState(false);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [queueSrc, setQueueSrc] = useState(CONFIG.music.afterBirthdayQueue[0]);
 
   const calmAudioRef = useRef<HTMLAudioElement>(null);
   const hbdAudioRef = useRef<HTMLAudioElement>(null);
+  const queueAudioRef = useRef<HTMLAudioElement>(null);
+  const queueIndexRef = useRef(0);
 
   // --- BACKGROUND GENERATOR ---
   useEffect(() => {
@@ -125,6 +134,7 @@ export default function BirthdayMicrosite() {
   useEffect(() => {
     if (calmAudioRef.current) calmAudioRef.current.muted = muted;
     if (hbdAudioRef.current) hbdAudioRef.current.muted = muted;
+    if (queueAudioRef.current) queueAudioRef.current.muted = muted;
   }, [muted]);
 
   // --- COUNTDOWN LOGIC ---
@@ -163,6 +173,37 @@ export default function BirthdayMicrosite() {
     return () => clearTimeout(timeout);
   }, [phase]);
 
+  const playQueueFromStart = () => {
+  queueIndexRef.current = 0;
+  const firstTrack = CONFIG.music.afterBirthdayQueue[0];
+
+  setQueueSrc(firstTrack);
+
+  setTimeout(() => {
+    if (!queueAudioRef.current) return;
+
+    queueAudioRef.current.volume = 0.45;
+    queueAudioRef.current.currentTime = 0;
+    queueAudioRef.current.play().catch((e) => console.log('Queue audio blocked:', e));
+  }, 80);
+};
+
+  const playNextQueueTrack = () => {
+    queueIndexRef.current =
+      (queueIndexRef.current + 1) % CONFIG.music.afterBirthdayQueue.length;
+
+    const nextTrack = CONFIG.music.afterBirthdayQueue[queueIndexRef.current];
+    setQueueSrc(nextTrack);
+
+    setTimeout(() => {
+      if (!queueAudioRef.current) return;
+
+      queueAudioRef.current.volume = 0.45;
+      queueAudioRef.current.currentTime = 0;
+      queueAudioRef.current.play().catch((e) => console.log('Queue audio blocked:', e));
+    }, 80);
+  };
+
   // --- ACTIONS ---
   const handleEnterGate = () => {
     if (calmAudioRef.current) {
@@ -176,6 +217,7 @@ export default function BirthdayMicrosite() {
     setPhase(2);
 
     if (calmAudioRef.current) calmAudioRef.current.pause();
+    if (queueAudioRef.current) queueAudioRef.current.pause();
 
     if (hbdAudioRef.current) {
       hbdAudioRef.current.volume = 0.7;
@@ -219,14 +261,20 @@ export default function BirthdayMicrosite() {
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_45%,rgba(251,113,133,0.16),transparent_32%),radial-gradient(circle_at_20%_25%,rgba(253,186,116,0.10),transparent_24%),radial-gradient(circle_at_80%_70%,rgba(244,114,182,0.12),transparent_28%)]" />
       {/* --- HIDDEN AUDIO --- */}
       <audio ref={calmAudioRef} src={CONFIG.music.calm} loop />
+
       <audio
         ref={hbdAudioRef}
         src={CONFIG.music.birthday}
         onEnded={() => {
-          if (calmAudioRef.current && phase !== 0) {
-            calmAudioRef.current.currentTime = 0;
-            calmAudioRef.current.play().catch((e) => console.log('Audio blocked:', e));
-          }
+          playQueueFromStart();
+        }}
+      />
+
+      <audio
+        ref={queueAudioRef}
+        src={queueSrc}
+        onEnded={() => {
+          playNextQueueTrack();
         }}
       />
 

@@ -9,7 +9,7 @@ import confetti from 'canvas-confetti';
 const CONFIG = {
   // --- SYSTEM ---
   SHOW_PREVIEW: true, // CHANGE TO FALSE BEFORE SENDING TO HER
-  TARGET_DATE_SGT: '2026-07-02T00:00:00+08:00',
+  TARGET_DATE_SGT: '2026-07-02T00:00:00+06:30',
 
   // --- AUDIO (Ensure these files are in public/music/) ---
   music: {
@@ -129,7 +129,7 @@ export default function BirthdayMicrosite() {
     // Confetti Explosion
     const duration = 5 * 1000;
     const animationEnd = Date.now() + duration;
-    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 9999 };
     const interval: any = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
       if (timeLeft <= 0) return clearInterval(interval);
@@ -146,7 +146,16 @@ export default function BirthdayMicrosite() {
       
       {/* --- HIDDEN AUDIO --- */}
       <audio ref={calmAudioRef} src={CONFIG.music.calm} loop />
-      <audio ref={hbdAudioRef} src={CONFIG.music.birthday} />
+      <audio 
+        ref={hbdAudioRef} 
+        src={CONFIG.music.birthday} 
+        onEnded={() => {
+          if (calmAudioRef.current) {
+              calmAudioRef.current.currentTime = 0;
+              calmAudioRef.current.play();
+          }
+        }} 
+      />
 
       {/* --- BACKGROUND PARTICLES --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -234,34 +243,74 @@ export default function BirthdayMicrosite() {
                 </p>
               </div>
 
-              {/* The Floating Carousel */}
-              <div className="w-full flex flex-col md:flex-row items-center justify-center gap-8 mb-20 relative">
-                
-                {/* Left: Polaroid */}
-                <div className="bg-white p-4 pb-12 rounded-sm shadow-2xl border border-gray-100 transform -rotate-3 hover:scale-105 transition-all z-10 w-72 md:w-96 shrink-0">
-                  <div className="w-full h-64 md:h-80 bg-rose-50 rounded overflow-hidden">
-                    <img src={CONFIG.carousel[carouselIdx].img} alt="Memory" className="w-full h-full object-cover" />
-                  </div>
-                </div>
+              {/* The Floating Photo Album / Diary Carousel */}
+              <div className="w-full relative mb-28">
+                <div className="flex flex-col md:flex-row items-center justify-center gap-10 md:gap-16 relative">
+                  
+                  {/* Left: Floating Polaroid Photo */}
+                  <div className="polaroid-photo relative bg-white p-4 pb-14 rounded-[10px] border border-white/80 transform -rotate-3 md:-translate-y-6 hover:-rotate-1 hover:scale-[1.02] transition-all duration-500 z-10 w-[min(88vw,380px)] md:w-[430px] shrink-0">
+                    <div className="w-full aspect-[4/5] bg-rose-50 rounded-[6px] overflow-hidden">
+                      <img
+                        src={CONFIG.carousel[carouselIdx].img}
+                        alt={`Favorite memory ${carouselIdx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
 
-                {/* Right: Diary Card */}
-                <div className="bg-rose-50/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-rose-200 transform rotate-2 hover:scale-105 transition-all z-20 w-72 md:w-96 h-48 flex items-center justify-center shrink-0">
-                  <p className="text-lg md:text-xl text-center italic text-rose-900 leading-relaxed">
-                    "{CONFIG.carousel[carouselIdx].text}"
-                  </p>
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <p className="text-xs tracking-[0.28em] uppercase text-rose-300 font-sans">
+                        memory {carouselIdx + 1} / {CONFIG.carousel.length}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right: Floating Diary Entry */}
+                  <div className="diary-paper relative w-[min(92vw,440px)] md:w-[500px] min-h-[360px] rounded-[28px] px-7 py-10 md:px-10 md:py-12 transform rotate-2 md:translate-y-8 hover:rotate-1 hover:scale-[1.015] transition-all duration-500 z-20">
+                    <div className="relative z-10">
+                      <p className="diary-label text-[10px] uppercase text-rose-400/80 mb-5 font-sans">
+                        why this is one of my favorites
+                      </p>
+
+                      <p className="diary-text text-rose-900 text-center whitespace-pre-line">
+                        {CONFIG.carousel[carouselIdx].text}
+                      </p>
+                    </div>
+
+                    <div className="absolute -top-3 -right-3 text-2xl rotate-12">♡</div>
+                    <div className="absolute -bottom-4 left-8 text-yellow-300 text-xl">✦</div>
+                  </div>
                 </div>
 
                 {/* Controls */}
-                <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 flex items-center gap-6 z-30">
-                  <button onClick={handlePrevCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
+                <div className="mt-14 flex items-center justify-center gap-6 z-30">
+                  <button
+                    onClick={handlePrevCarousel}
+                    className="album-control w-12 h-12 rounded-full bg-white text-rose-600 hover:bg-rose-50 transition-all hover:scale-105 active:scale-95 font-sans"
+                    aria-label="Previous memory"
+                  >
                     ←
                   </button>
+
                   <div className="flex gap-2">
                     {CONFIG.carousel.map((_, i) => (
-                      <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === carouselIdx ? 'bg-rose-500' : 'bg-rose-200'}`} />
+                      <button
+                        key={i}
+                        onClick={() => setCarouselIdx(i)}
+                        className={`w-2.5 h-2.5 rounded-full transition-all ${
+                          i === carouselIdx
+                            ? "bg-rose-500 scale-125"
+                            : "bg-rose-200 hover:bg-rose-300"
+                        }`}
+                        aria-label={`Go to memory ${i + 1}`}
+                      />
                     ))}
                   </div>
-                  <button onClick={handleNextCarousel} className="p-3 rounded-full bg-white text-rose-600 shadow-md hover:bg-rose-50 transition-colors">
+
+                  <button
+                    onClick={handleNextCarousel}
+                    className="album-control w-12 h-12 rounded-full bg-white text-rose-600 hover:bg-rose-50 transition-all hover:scale-105 active:scale-95 font-sans"
+                    aria-label="Next memory"
+                  >
                     →
                   </button>
                 </div>

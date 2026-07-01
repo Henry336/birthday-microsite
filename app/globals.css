@@ -30,3 +30,55 @@
 
 .animate-float { animation: floatUp linear infinite; }
 .animate-twinkle { animation: twinkle ease-in-out infinite; }
+
+body {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.diary-paper {
+  position: relative;
+  background:
+    linear-gradient(90deg, rgba(251, 113, 133, 0.12) 0 1px, transparent 1px 100%),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 31px,
+      rgba(251, 113, 133, 0.18) 32px,
+      transparent 33px
+    ),
+    linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,241,245,0.92));
+  box-shadow:
+    0 24px 70px rgba(136, 19, 55, 0.16),
+    inset 0 0 0 1px rgba(251, 113, 133, 0.18);
+}
+
+.diary-paper::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  border: 1px dashed rgba(225, 29, 72, 0.16);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.diary-label {
+  font-family: var(--font-playfair), Georgia, serif;
+  letter-spacing: 0.18em;
+}
+
+.diary-text {
+  font-family: var(--font-myanmar-serif), "Myanmar Text", serif;
+  font-size: clamp(0.95rem, 1.25vw, 1.18rem);
+  line-height: 2.05;
+  letter-spacing: 0.005em;
+  text-wrap: pretty;
+}
+
+.polaroid-photo {
+  box-shadow:
+    0 26px 80px rgba(82, 12, 33, 0.18),
+    0 8px 22px rgba(82, 12, 33, 0.12);
+}
+
+.album-control {
+  box-shadow: 0 12px 30px rgba(136, 19, 55, 0.16);
+}

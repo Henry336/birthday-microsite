@@ -4,24 +4,53 @@ import { useState, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 
 // ============================================================================
-// ⚙️ CONFIGURATION & CONTENT
+// ⚙️ CONFIGURATION: EDIT EVERYTHING HERE
 // ============================================================================
-const SHOW_PREVIEW = true; // CHANGE TO FALSE BEFORE SENDING TO HER
-const TARGET_DATE_SGT = new Date('2026-07-02T00:00:00+08:00').getTime();
+const CONFIG = {
+  // --- SYSTEM ---
+  SHOW_PREVIEW: true, // CHANGE TO FALSE BEFORE SENDING TO HER
+  TARGET_DATE_SGT: '2026-07-02T00:00:00+08:00',
 
-const LETTER_TEXT = `Happy 20th Birthday, Thel Thel! ❤️
+  // --- AUDIO (Ensure these files are in public/music/) ---
+  music: {
+    calm: '/music/calm.mp3',
+    birthday: '/music/birthday.mp3'
+  },
 
-I wanted to make something special for you this year. [Insert your raw, genuine birthday message here. Write about how much she means to you, your favorite moments from the past year, and what you are looking forward to in the future.]
+  // --- PHASE 0: THE GATE ---
+  gate: {
+    title: "for Thel Thel",
+    subtitle1: "Something is counting down,",
+    subtitle2: "just for you.",
+    buttonText: "Tap to enter, my love",
+    hintText: "Turn your sound on"
+  },
 
-Scroll down to see some of my favorite memories of us.`;
+  // --- PHASE 1: COUNTDOWN ---
+  countdown: {
+    title: "See you at Midnight..."
+  },
 
-const CAROUSEL_DATA = [
-  { img: '/photos/photo1.jpg', text: 'This was such a fun day. I love your smile here so much.' },
-  { img: '/photos/photo2.jpg', text: 'Remember this? One of my absolute favorite moments with you.' },
-  { img: '/photos/photo3.jpg', text: 'You looked incredibly gorgeous this day. I couldnt take my eyes off you.' },
-  { img: '/photos/photo4.jpg', text: 'Just us being completely silly. I love our dynamic.' },
-  { img: '/photos/photo5.jpg', text: 'Happy Birthday, my love. Here is to a hundred more memories like this.' }
-];
+  // --- PHASE 2: MIDNIGHT REVEAL ---
+  reveal: {
+    title: "Happy 20th Birthday, <br/> my love!",
+    buttonText: "Read My Letter →"
+  },
+
+  // --- PHASE 3: THE LETTER & PHOTOS ---
+  letterText: `Happy 20th Birthday, Thel Thel! ❤️\n\nI wanted to make something special for you this year. [Insert your raw, genuine birthday message here. Write about how much she means to you, your favorite moments from the past year, and what you are looking forward to in the future.]\n\nScroll down to see some of my favorite memories of us.`,
+  
+  // Ensure these files are in public/photos/
+  carousel: [
+    { img: '/photos/photo1.jpg', text: 'This was such a fun day. I love your smile here so much.' },
+    { img: '/photos/photo2.jpg', text: 'Remember this? One of my absolute favorite moments with you.' },
+    { img: '/photos/photo3.jpg', text: 'You looked incredibly gorgeous this day. I couldnt take my eyes off you.' },
+    { img: '/photos/photo4.jpg', text: 'Just us being completely silly. I love our dynamic.' },
+    { img: '/photos/photo5.jpg', text: 'Happy Birthday, my love. Here is to a hundred more memories like this.' }
+  ]
+};
+// ============================================================================
+// END OF CONFIGURATION - DO NOT TOUCH BELOW UNLESS YOU WANT TO CHANGE UI
 // ============================================================================
 
 export default function BirthdayMicrosite() {
@@ -58,9 +87,11 @@ export default function BirthdayMicrosite() {
   useEffect(() => {
     if (phase !== 1) return;
     
+    const targetTime = new Date(CONFIG.TARGET_DATE_SGT).getTime();
+    
     const timer = setInterval(() => {
       const now = new Date().getTime();
-      const distance = TARGET_DATE_SGT - now;
+      const distance = targetTime - now;
 
       if (distance <= 0) {
         clearInterval(timer);
@@ -107,15 +138,15 @@ export default function BirthdayMicrosite() {
     }, 250);
   };
 
-  const handleNextCarousel = () => setCarouselIdx((prev) => (prev + 1) % CAROUSEL_DATA.length);
-  const handlePrevCarousel = () => setCarouselIdx((prev) => (prev - 1 + CAROUSEL_DATA.length) % CAROUSEL_DATA.length);
+  const handleNextCarousel = () => setCarouselIdx((prev) => (prev + 1) % CONFIG.carousel.length);
+  const handlePrevCarousel = () => setCarouselIdx((prev) => (prev - 1 + CONFIG.carousel.length) % CONFIG.carousel.length);
 
   return (
     <div className="min-h-screen bg-rose-50 flex flex-col items-center justify-center relative overflow-hidden font-serif text-rose-950">
       
       {/* --- HIDDEN AUDIO --- */}
-      <audio ref={calmAudioRef} src="/music/calm.mp3" loop />
-      <audio ref={hbdAudioRef} src="/music/birthday.mp3" />
+      <audio ref={calmAudioRef} src={CONFIG.music.calm} loop />
+      <audio ref={hbdAudioRef} src={CONFIG.music.birthday} />
 
       {/* --- BACKGROUND PARTICLES --- */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -139,18 +170,18 @@ export default function BirthdayMicrosite() {
         {phase === 0 && (
           <div className="text-center space-y-8 animate-in fade-in duration-1000">
             <div className="space-y-4">
-              <h2 className="text-4xl md:text-5xl italic text-rose-600 font-medium tracking-wide">for Thel Thel</h2>
+              <h2 className="text-4xl md:text-5xl italic text-rose-600 font-medium tracking-wide">{CONFIG.gate.title}</h2>
               <div className="space-y-1">
-                <p className="text-2xl md:text-3xl font-light tracking-wide">Something is counting down,</p>
-                <p className="text-2xl md:text-3xl font-light tracking-wide">just for you.</p>
+                <p className="text-2xl md:text-3xl font-light tracking-wide">{CONFIG.gate.subtitle1}</p>
+                <p className="text-2xl md:text-3xl font-light tracking-wide">{CONFIG.gate.subtitle2}</p>
               </div>
             </div>
             
             <div className="pt-8 flex flex-col items-center gap-4">
               <button onClick={handleEnterGate} className="px-10 py-4 bg-rose-600 hover:bg-rose-700 text-white rounded-full text-xl shadow-[0_0_25px_rgba(225,29,72,0.4)] transition-all hover:scale-105 active:scale-95 font-sans font-medium tracking-wide">
-                Tap to enter, my love
+                {CONFIG.gate.buttonText}
               </button>
-              <span className="text-xs tracking-[0.3em] uppercase text-rose-400/80 font-sans">Turn your sound on</span>
+              <span className="text-xs tracking-[0.3em] uppercase text-rose-400/80 font-sans">{CONFIG.gate.hintText}</span>
             </div>
           </div>
         )}
@@ -158,7 +189,7 @@ export default function BirthdayMicrosite() {
         {/* ================= PHASE 1: COUNTDOWN ================= */}
         {phase === 1 && (
           <div className="text-center animate-in fade-in zoom-in duration-700 space-y-8">
-             <h2 className="text-2xl md:text-3xl italic text-rose-500 font-light">See you at Midnight...</h2>
+             <h2 className="text-2xl md:text-3xl italic text-rose-500 font-light">{CONFIG.countdown.title}</h2>
              <div className="flex gap-4 md:gap-8 justify-center font-sans">
                 <div className="flex flex-col items-center">
                   <span className="text-5xl md:text-7xl font-bold text-rose-600 drop-shadow-sm">{String(timeLeft.hours).padStart(2, '0')}</span>
@@ -181,11 +212,12 @@ export default function BirthdayMicrosite() {
         {/* ================= PHASE 2: MIDNIGHT REVEAL ================= */}
         {phase === 2 && (
           <div className="text-center animate-in fade-in slide-in-from-bottom-10 duration-1000 space-y-10">
-            <h1 className="text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-400 drop-shadow-lg p-4">
-              Happy 20th Birthday, <br/> my love!
-            </h1>
+            <h1 
+              className="text-6xl md:text-8xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-pink-400 drop-shadow-lg p-4"
+              dangerouslySetInnerHTML={{ __html: CONFIG.reveal.title }}
+            />
             <button onClick={() => setPhase(3)} className="mt-8 px-8 py-3 border-2 border-rose-500 text-rose-600 hover:bg-rose-500 hover:text-white rounded-full text-lg transition-all hover:scale-105 active:scale-95 font-sans tracking-wide">
-              Read My Letter →
+              {CONFIG.reveal.buttonText}
             </button>
           </div>
         )}
@@ -197,7 +229,7 @@ export default function BirthdayMicrosite() {
             {/* The Letter */}
             <div className="bg-white/80 backdrop-blur-md p-8 md:p-12 rounded-2xl shadow-xl border border-rose-100 mb-16 w-11/12 max-w-3xl transform rotate-1 hover:rotate-0 transition-transform">
               <p className="text-lg md:text-xl leading-loose whitespace-pre-line text-gray-700 font-sans font-light">
-                {LETTER_TEXT}
+                {CONFIG.letterText}
               </p>
             </div>
 
@@ -207,14 +239,14 @@ export default function BirthdayMicrosite() {
               {/* Left: Polaroid */}
               <div className="bg-white p-4 pb-12 rounded-sm shadow-2xl border border-gray-100 transform -rotate-3 hover:scale-105 transition-all z-10 w-72 md:w-96">
                 <div className="w-full h-64 md:h-80 bg-rose-50 rounded overflow-hidden">
-                  <img src={CAROUSEL_DATA[carouselIdx].img} alt="Memory" className="w-full h-full object-cover" />
+                  <img src={CONFIG.carousel[carouselIdx].img} alt="Memory" className="w-full h-full object-cover" />
                 </div>
               </div>
 
               {/* Right: Diary Card */}
               <div className="bg-rose-50/90 backdrop-blur-sm p-8 rounded-xl shadow-lg border border-rose-200 transform rotate-2 hover:scale-105 transition-all z-20 w-72 md:w-96 h-48 flex items-center justify-center">
                 <p className="text-lg md:text-xl text-center italic text-rose-900 leading-relaxed">
-                  "{CAROUSEL_DATA[carouselIdx].text}"
+                  "{CONFIG.carousel[carouselIdx].text}"
                 </p>
               </div>
 
@@ -224,7 +256,7 @@ export default function BirthdayMicrosite() {
                   ←
                 </button>
                 <div className="flex gap-2">
-                  {CAROUSEL_DATA.map((_, i) => (
+                  {CONFIG.carousel.map((_, i) => (
                     <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === carouselIdx ? 'bg-rose-500' : 'bg-rose-200'}`} />
                   ))}
                 </div>
@@ -238,7 +270,7 @@ export default function BirthdayMicrosite() {
       </div>
 
       {/* ================= DEV PREVIEW PANEL ================= */}
-      {SHOW_PREVIEW && (
+      {CONFIG.SHOW_PREVIEW && (
         <div className="fixed bottom-4 left-4 z-50 bg-white/90 backdrop-blur-md p-4 rounded-xl border border-rose-200 shadow-2xl text-xs font-sans w-48">
           <p className="font-bold text-rose-800 mb-3 border-b border-rose-100 pb-1">🔧 DEV CONTROLS</p>
           <div className="flex flex-col gap-2">

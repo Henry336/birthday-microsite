@@ -8,7 +8,7 @@ import confetti from 'canvas-confetti';
 // ============================================================================
 const CONFIG = {
   // --- SYSTEM ---
-  SHOW_PREVIEW: true, // CHANGE TO FALSE BEFORE SENDING TO HER
+  SHOW_PREVIEW: false, // CHANGE TO FALSE BEFORE SENDING TO HER
   TARGET_DATE_MYANMAR: '2026-07-02T00:00:00+06:30',
 
   // --- AUDIO (Ensure these files are in public/music/) ---
